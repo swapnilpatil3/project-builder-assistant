@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            background-color: #16213e;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            width: 300px;
+        }
+        #display {
+            background-color: #0f3460;
+            color: white;
+            font-size: 2rem;
+            text-align: right;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 60px;
+            word-break: break-all;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            padding: 18px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.8; }
+        .num { background-color: #533483; color: white; }
+        .op  { background-color: #e94560; color: white; }
+        .eq  { background-color: #0f3460; color: white; }
+        .clr { background-color: #e94560; color: white; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div id="display">0</div>
+        <div class="buttons">
+            <button class="clr" onclick="clearAll()">C</button>
+            <button class="op"  onclick="deleteLast()">⌫</button>
+            <button class="op"  onclick="appendOp('%')">%</button>
+            <button class="op"  onclick="appendOp('/')">/</button>
+
+            <button class="num" onclick="appendNum('7')">7</button>
+            <button class="num" onclick="appendNum('8')">8</button>
+            <button class="num" onclick="appendNum('9')">9</button>
+            <button class="op"  onclick="appendOp('*')">*</button>
+
+            <button class="num" onclick="appendNum('4')">4</button>
+            <button class="num" onclick="appendNum('5')">5</button>
+            <button class="num" onclick="appendNum('6')">6</button>
+            <button class="op"  onclick="appendOp('-')">-</button>
+
+            <button class="num" onclick="appendNum('1')">1</button>
+            <button class="num" onclick="appendNum('2')">2</button>
+            <button class="num" onclick="appendNum('3')">3</button>
+            <button class="op"  onclick="appendOp('+')">+</button>
+
+            <button class="num" onclick="appendNum('0')">0</button>
+            <button class="num" onclick="appendNum('.')">.</button>
+            <button class="eq"  style="grid-column: span 2;" onclick="calculate()">=</button>
+        </div>
+    </div>
+    <script>
+        let expression = "";
+
+        function updateDisplay(val) {
+            document.getElementById("display").innerText = val || "0";
+        }
+        function appendNum(num) {
+            expression += num;
+            updateDisplay(expression);
+        }
+        function appendOp(op) {
+            if(expression === "") return;
+            expression += op;
+            updateDisplay(expression);
+        }
+        function clearAll() {
+            expression = "";
+            updateDisplay("0");
+        }
+        function deleteLast() {
+            expression = expression.slice(0, -1);
+            updateDisplay(expression || "0");
+        }
+        function calculate() {
+            try {
+                let result = eval(expression);
+                updateDisplay(result);
+                expression = String(result);
+            } catch(e) {
+                updateDisplay("Error");
+                expression = "";
+            }
+        }
+    </script>
+</body>
+</html>
